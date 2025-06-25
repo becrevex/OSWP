@@ -1,6 +1,6 @@
 # Advanced Wlan Techniques
 
-## Man-in-the-Middle attack
+### Man-in-the-Middle attack
 
 Description:
 This attack sets up a rogue access point with the same SSID as a legitimate one,
@@ -22,7 +22,7 @@ iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE                 # Masquerad
 ettercap -T -q -i at0 -M arp:remote // //                            # Launch ARP poisoning to intercept and sniff network traffic
 ```
 
-## Wireless Eavesdropping
+### Wireless Eavesdropping
 This passive attack involves capturing wireless packets in the air for later analysis.
 Use during recon or to analyze open or poorly encrypted networks without disrupting them.
 It reveals sensitive data or credentials transmitted in plaintext, misconfigured encryption, 
@@ -39,7 +39,7 @@ wireshark &                   # Launch Wireshark for real-time packet capture an
 
 
 ```
-## Session Hijacking over Wireless
+### Session Hijacking over Wireless
 This attack captures session tokens, cookies, or credentials from unencrypted network traffic to hijack user sessions.
 When users connect to insecure networks (e.g., public Wi-Fi), to demonstrate risks of non-HTTPS services.
 To stress the importance of HTTPS, secure cookie flags, and encrypted transport layers.
@@ -52,7 +52,7 @@ dsniff -i mon0               # Capture passwords, session cookies, and credentia
 urlsnarf -i mon0             # Log all URLs accessed by devices on the network
 ```
 
-## Enumerating wireless security profiles
+### Enumerating wireless security profiles
 This involves identifying saved or auto-connect wireless profiles on a system, including previously 
 connected networks and their credentials.  When analyzing client device configurations or performing 
 post-exploitation data gathering. It shows what networks a device connects to and can expose credentials 
