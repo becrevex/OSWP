@@ -4,3 +4,12 @@ cd freeradius-server
 ./configure
 make
 sudo make install
+
+
+
+curl -fsSL https://archive.kali.org/archive-key.asc | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/kali-archive.gpg
+sudo apt clean
+sudo rm -rf /var/lib/apt/lists/*
+sudo apt update
+
+deb http://http.kali.org/kali kali-rolling main non-free contrib
