@@ -13,3 +13,45 @@ sudo rm -rf /var/lib/apt/lists/*
 sudo apt update
 
 deb http://http.kali.org/kali kali-rolling main non-free contrib
+
+
+---
+INSTALL DEPENDENCIES
+
+sudo apt update
+sudo apt install git build-essential libssl-dev libpcap-dev libpam0g-dev \
+libtalloc-dev libcurl4-openssl-dev libtool libtool-bin autoconf \
+libreadline-dev libncurses-dev wget bison -y
+
+
+CLONE BRAD'S FREERADIUS-WPE REPO
+git clone https://github.com/brad-anton/freeradius-wpe.git
+cd freeradius-wpe
+
+DOWNLOAD FREERADIUS SOURCE (2.1.12)
+wget ftp://ftp.freeradius.org/pub/freeradius/old/freeradius-server-2.1.12.tar.bz2
+tar -xjvf freeradius-server-2.1.12.tar.bz2
+cd freeradius-server-2.1.12
+
+APPLY THE PATCH
+patch -p1 < ../freeradius-wpe/freeradius-wpe.patch
+
+
+BUILD AND INSTALL
+./configure
+make
+sudo make install
+sudo ldconfig
+
+
+GENERATE SERVER CERTS
+cd /usr/local/etc/raddb/certs
+sudo ./bootstrap
+sudo ldconfig
+
+RUN IN DEBUG MODE
+sudo /usr/local/sbin/radiusd -X
+
+
+CAPTURED HASHES ARE LOCATED:
+/var/log/freeradius-wpe.log
