@@ -1,64 +1,6 @@
 
-Got it — the error you're seeing ("**an error occurred during signature verification**") usually happens when trying to install or update packages via APT, and it means **your system can’t verify the authenticity of the package source**. Here’s how to fix it and get you back on track installing FreeRADIUS-WPE.
-
----
-
-## ✅ Fixing the Signature Verification Error in Kali
-
-### 🔁 Step 1: Update GPG Keys
-
-```bash
-sudo apt update --allow-unauthenticated
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 0xYOURKEYID
-```
-
-If you don’t know the key ID, try refreshing all keys:
-
-```bash
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys --keyserver-options timeout=10 --recv-keys 0xED444FF07D8D0BF6
-```
-
-> You can also try `keyserver hkps://keyserver.ubuntu.com` if `hkp://` doesn’t work.
-
----
-
-### 🧽 Step 2: Clean Local Caches
-
-```bash
-sudo apt clean
-sudo rm -rf /var/lib/apt/lists/*
-sudo apt update
-```
-
----
-
-### 🛠️ Step 3: Temporarily Bypass Signature Check (Not Recommended Long-Term)
-
-If the keyserver is down or the key is missing, and you're stuck:
-
-```bash
-sudo apt update --allow-unauthenticated
-sudo apt install freeradius --allow-unauthenticated
-```
-
-> ⚠️ Use only as a last resort, and **never on production machines**.
-
----
-
-### 🚀 Alternative: Build FreeRADIUS-WPE from Source (Recommended)
-
-If you're hitting this error while installing from APT, and you're going to compile from source anyway, skip the `apt install freeradius` step and proceed with the **Git clone + build method** I gave earlier:
-
-```bash
 git clone https://github.com/FreeRADIUS/freeradius-server.git
 cd freeradius-server
 ./configure
 make
 sudo make install
-```
-
-This version **doesn’t rely on signed apt packages**, so the verification error won’t block it.
-
----
-
-Would you like me to provide a script that automates the full install + config for FreeRADIUS-WPE and prepares your rogue AP setup for PEAP/MSCHAPv2 attacks?
