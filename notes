@@ -53,5 +53,17 @@ RUN IN DEBUG MODE
 sudo /usr/local/sbin/radiusd -X
 
 
+
+HAD TO CONFIGURE INDEPENDENT INTERFACES FOR WEB AND TESTING
+nano /etc/NetworkManager/NetworkManager.conf
+++
+[keyfile]
+unmanaged-devices=interface-name:wlan1
+++
+systemctl restart NetworkManager
+
+
+
+
 CAPTURED HASHES ARE LOCATED:
 /var/log/freeradius-wpe.log
